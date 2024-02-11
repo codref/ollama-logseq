@@ -19,9 +19,23 @@ let settings: SettingSchemaDesc[] = [
     key: "host",
     type: "string",
     title: "Host",
-    description: "Set the host of your ollama model",
-    default: "localhost:11434"
+    description: "Set the URI of your ollama server",
+    default: "http://localhost:11434"
   },
+  {
+    key: "username",
+    type: "string",
+    title: "Username",
+    description: "Basic HTTP auth username",
+    default: ""
+  },
+  {
+    key: "password",
+    type: "string",
+    title: "Password",
+    description: "Basic HTTP auth password",
+    default: ""
+  },  
   {
     key: "model",
     type: "string",
@@ -29,6 +43,13 @@ let settings: SettingSchemaDesc[] = [
     description: "Set your desired model to use ollama",
     default: "mistral:instruct"
   },
+  {
+    key: "options",
+    type: "object",
+    title: "LLM Model Options",
+    description: "Set model options https://github.com/ollama/ollama/blob/main/docs/modelfile.md#valid-parameters-and-values",
+    default: {}
+  },  
   {
     key: "shortcut",
     type: "string",

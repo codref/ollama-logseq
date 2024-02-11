@@ -83,13 +83,20 @@ async function ollamaGenerate(prompt: string, parameters?: OllamaGenerateParamet
   }
   params.prompt = prompt
   params.stream = false
+  params.options = logseq.settings.options
+
+  let headers: any = {};
+  headers = {
+    'Content-Type': 'application/json',
+  }
+  if (logseq.settings.username != "") {
+    headers["Authorization"] = "Basic " + btoa(`${logseq.settings.username}:${logseq.settings.password}`)
+  }  
 
   try {
-    const response = await fetch(`http://${logseq.settings.host}/api/generate`, {
+    const response = await fetch(`${logseq.settings.host}/api/generate`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: headers,
       body: JSON.stringify(params)
     })
     if (!response.ok) {
@@ -108,16 +115,24 @@ async function promptLLM(prompt: string) {
   if (!logseq.settings) {
     throw new Error("Couldn't find logseq settings");
   }
+
+  let headers: any = {};
+  headers = {
+    'Content-Type': 'application/json',
+  }
+  if (logseq.settings.username != "") {
+    headers["Authorization"] = "Basic " + btoa(`${logseq.settings.username}:${logseq.settings.password}`)
+  }  
+
   try {
-    const response = await fetch(`http://${logseq.settings.host}/api/generate`, {
+    const response = await fetch(`${logseq.settings.host}/api/generate`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: headers,
       body: JSON.stringify({
         model: logseq.settings.model,
         prompt: prompt,
         stream: false,
+        options: logseq.settings.options,
       }),
     })
     if (!response.ok) {
